@@ -1,4 +1,15 @@
-import { Body, Controller, Get, HttpStatus, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  NotFoundException,
+  Param,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { NestResponse } from 'src/core/http/nest-response';
 import { NestResponseBuilder } from 'src/core/http/nest-response-builder';
 import { Cerveja } from './cerveja.entity';
@@ -24,5 +35,20 @@ export class CervejaController {
       .withHeaders({ Location: `/cervejas/${cervejaCriada.nome}` })
       .withBody(cervejaCriada)
       .build();
+  }
+
+  @Delete(':nomeCerveja')
+  @HttpCode(204)
+  public async apagar(@Param('nomeCerveja') nome: string) {
+    const cerveja = await this.service.getCerveja(nome);
+
+    if (!cerveja) {
+      throw new NotFoundException({
+        statusCode: 404,
+        message: 'Cerveja não encontrada',
+      });
+    }
+
+    await this.service.apagarCerveja(nome);
   }
 }

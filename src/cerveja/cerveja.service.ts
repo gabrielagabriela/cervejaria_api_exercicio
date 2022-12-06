@@ -40,4 +40,12 @@ export class CervejaService {
       return [];
     }
   }
+
+  public async apagarCerveja(nome: string) {
+    const cervejas = await this.database.getCervejas();
+    const novaLista = cervejas.filter(
+      (cerveja) => cerveja.nome.toLowerCase() != nome.toLowerCase(),
+    );
+    await this.database.gravarCervejas(novaLista);
+  }
 }
