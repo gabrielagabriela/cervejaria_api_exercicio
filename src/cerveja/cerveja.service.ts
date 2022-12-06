@@ -19,8 +19,8 @@ export class CervejaService {
   }
 
   public async getCerveja(nome: string) {
-    const cervejas = await this.database.getCervejas();
-    return cervejas.find(
+    const cervejasDetalhe = await this.database.getCervejas();
+    return cervejasDetalhe.find(
       (cerveja) => cerveja.nome.toLowerCase() == nome.toLowerCase(),
     );
   }
