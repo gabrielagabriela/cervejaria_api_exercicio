@@ -48,4 +48,9 @@ export class CervejaService {
     );
     await this.database.gravarCervejas(novaLista);
   }
+
+  public async updateCerveja(nome: string, body: Cerveja) {
+    const cervejas = await this.database.getCervejas();
+    const cervejaFind = cervejas.find((cerveja) => cerveja.nome == body.nome);
+  }
 }

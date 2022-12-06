@@ -8,6 +8,7 @@ import {
   NotFoundException,
   Param,
   Post,
+  Put,
   Query,
 } from '@nestjs/common';
 import { NestResponse } from 'src/core/http/nest-response';
@@ -50,5 +51,18 @@ export class CervejaController {
     }
 
     await this.service.apagarCerveja(nome);
+  }
+
+  @Put(':nomeCerveja')
+  public async updateCerveja(
+    @Param('nomeCerveja') nome: string,
+    @Body() body: Cerveja,
+  ): Promise<NestResponse> {
+    const cervejaUp = this.service.updateCerveja(nome, body);
+    return new NestResponseBuilder()
+      .withStatus(HttpStatus.OK)
+      .withHeaders({})
+      .withBody(cervejaUp)
+      .build();
   }
 }
